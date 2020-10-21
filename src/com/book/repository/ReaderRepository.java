@@ -9,4 +9,8 @@ public interface ReaderRepository {
     public int registered(String username,String password,String tel);
     public int hasUsername(String username);
     public List<Reader> findAllUser();
+    public Reader findUserById(int id);
+    public int deleteFindById(int id);
+    public int updateOneUser(Reader reader);
+    public int addOneUser(Reader reader);
 }

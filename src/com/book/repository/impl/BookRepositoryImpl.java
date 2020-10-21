@@ -33,7 +33,8 @@ public class BookRepositoryImpl implements BookRepository {
             resultSet = statement.executeQuery();
             //返回结果为数组时的用法
             while (resultSet.next()) {
-                list.add(new Book(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5), resultSet.getDouble(6), resultSet.getInt(9), resultSet.getString(10)));
+//                System.out.println("所有书籍="+new Book(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5), resultSet.getDouble(6), resultSet.getInt(10), resultSet.getString(11),resultSet.getBytes(9)));
+                list.add(new Book(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5), resultSet.getDouble(6), resultSet.getInt(10), resultSet.getString(11),resultSet.getBytes(9)));
             }
         }catch (SQLException e) {
             e.printStackTrace();
@@ -82,7 +83,7 @@ public class BookRepositoryImpl implements BookRepository {
             //执行语句
             resultSet = statement.executeQuery();
             if(resultSet.next()){
-                book=new Book(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5), resultSet.getDouble(6), resultSet.getInt(7), resultSet.getString(8));
+                book=new Book(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5), resultSet.getDouble(6), resultSet.getInt(7), resultSet.getString(8),resultSet.getBytes(9));
             }
         }catch (SQLException e) {
             e.printStackTrace();

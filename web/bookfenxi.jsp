@@ -13,7 +13,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>万书</title>
+    <title>数据分析</title>
     <link rel="stylesheet" href="/layui/css/layui.css">
     <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
     <!-- 你必须先引入jQuery1.8或以上版本 -->
@@ -77,7 +77,7 @@
                 <li class="layui-nav-item"><a href="bookshow.jsp">所有商品</a></li>
                 <c:if test="${reader.grade==2}">
                     <li class="layui-nav-item"><a href="bookfenxi.jsp">数据分析</a></li>
-                    <li class="layui-nav-item"><a href="bookshow.jsp">所有用户</a></li>
+                    <li class="layui-nav-item"><a href="user.jsp">所有用户</a></li>
                 </c:if>
             </ul>
         </div>

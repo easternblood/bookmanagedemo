@@ -1,5 +1,7 @@
 package com.book.eneity;
 
+import java.util.Arrays;
+
 public class Book {
     private Integer id;
     private String name;
@@ -9,6 +11,7 @@ public class Book {
     private Double price;
     private Integer bookcaseid;
     private String kindname;
+    private byte[] photoimg;
 
     @Override
     public String toString() {
@@ -21,10 +24,11 @@ public class Book {
                 ", price=" + price +
                 ", bookcaseid=" + bookcaseid +
                 ", kindname='" + kindname + '\'' +
+                ", photoimg=" + Arrays.toString(photoimg) +
                 '}';
     }
 
-    public Book(Integer id, String name, String author, String publish, Integer pages, Double price, Integer bookcaseid, String kindname) {
+    public Book(Integer id, String name, String author, String publish, Integer pages, Double price, Integer bookcaseid, String kindname, byte[] photoimg) {
         this.id = id;
         this.name = name;
         this.author = author;
@@ -33,6 +37,7 @@ public class Book {
         this.price = price;
         this.bookcaseid = bookcaseid;
         this.kindname = kindname;
+        this.photoimg = photoimg;
     }
 
     public Integer getId() {
@@ -97,5 +102,13 @@ public class Book {
 
     public void setKindname(String kindname) {
         this.kindname = kindname;
+    }
+
+    public byte[] getPhotoimg() {
+        return photoimg;
+    }
+
+    public void setPhotoimg(byte[] photoimg) {
+        this.photoimg = photoimg;
     }
 }
