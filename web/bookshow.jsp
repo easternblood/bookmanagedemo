@@ -131,7 +131,7 @@
             parseData: function(res) { //res 即为原始返回的数据
                 // console.log(res)
                 for(index in res){
-                    console.log("进入循环")
+                    // console.log("进入循环")
                     if(res[index].photoimg!=null){
                         var str12 =arrayBufferToBase64(res[index].photoimg);//转换字符串
                         res[index].photoimg="data:image/png;base64,"+str12
@@ -139,7 +139,7 @@
                         // console.log(res[index].photoimg)
                     }
                 }
-                console.log(res)
+                // console.log(res)
                 var result;
                 // console.log(this);
                 // console.log(JSON.stringify(res));

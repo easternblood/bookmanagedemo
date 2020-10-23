@@ -42,7 +42,7 @@ public class LoginServlet extends HttpServlet {
                     HttpSession httpSession = req.getSession();
                     //向下转型保存
                     Reader reader = (Reader) object;
-                    System.out.println("LoginServlet的reader="+reader);
+//                    System.out.println("LoginServlet的reader="+reader);
                     // 1.获取session
                     HttpSession session = req.getSession();
                     //保存数据到服务器

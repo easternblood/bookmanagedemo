@@ -33,4 +33,9 @@ public class UserServiceImpl implements UserService {
     public int addOneUser(Reader reader) {
         return  readerRepository.addOneUser(reader);
     }
+
+    @Override
+    public int updatePhoto(Reader reader, String position) {
+        return  readerRepository.updatePhoto(reader,position);
+    }
 }

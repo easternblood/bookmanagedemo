@@ -31,7 +31,7 @@ public class ReaderRepositoryImpl implements ReaderRepository {
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 //单个数据的替代,
-                reader = new Reader(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7), resultSet.getInt(8));
+                reader = new Reader(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7), resultSet.getInt(8),resultSet.getString(9));
             }
 
         } catch (SQLException e) {
@@ -110,7 +110,7 @@ public class ReaderRepositoryImpl implements ReaderRepository {
             resultSet = statement.executeQuery();
             //返回结果为数组时的用法
             while (resultSet.next()) {
-                list.add(new Reader(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7), resultSet.getInt(8)));
+                list.add(new Reader(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7), resultSet.getInt(8),resultSet.getString(9)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -138,7 +138,7 @@ public class ReaderRepositoryImpl implements ReaderRepository {
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 //单个数据的替代,
-                reader = new Reader(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7), resultSet.getInt(8));
+                reader = new Reader(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7), resultSet.getInt(8), resultSet.getString(9));
             }
 
         } catch (SQLException e) {
@@ -235,6 +235,35 @@ public class ReaderRepositoryImpl implements ReaderRepository {
                 if (statement.executeUpdate()==1) {
                     //单个数据的替代
                     System.out.println("方法updateOneUser更新数据成功");
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public int updatePhoto(Reader reader, String position) {
+        //之前定义的包装类用于c3p0连接池的使用
+        Connection connection= JdbcTools.getConnection();
+        String sql="update reader set imageurl=? where id=?;";
+        //执行sql语句
+        PreparedStatement statement=null;
+        try {
+            if(sql!=null) {
+                statement = connection.prepareStatement(sql);
+
+
+                statement.setString(1,position);
+                statement.setInt(2,reader.getId());
+
+                if (statement.executeUpdate()==1) {
+                    //单个数据的替代
+                    System.out.println("方法updatePhoto更新数据成功");
                     return 1;
                 } else {
                     return 0;

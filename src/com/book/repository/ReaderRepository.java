@@ -13,4 +13,5 @@ public interface ReaderRepository {
     public int deleteFindById(int id);
     public int updateOneUser(Reader reader);
     public int addOneUser(Reader reader);
+    public int updatePhoto(Reader reader,String position);
 }

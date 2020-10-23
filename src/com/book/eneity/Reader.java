@@ -9,6 +9,7 @@ public class Reader {
     private String cardid;
     private String gender;
     private Integer grade;
+    private String imageurl;
 
     @Override
     public String toString() {
@@ -21,7 +22,20 @@ public class Reader {
                 ", cardid='" + cardid + '\'' +
                 ", gender='" + gender + '\'' +
                 ", grade=" + grade +
+                ", imageurl='" + imageurl + '\'' +
                 '}';
+    }
+
+    public Reader(Integer id, String username, String password, String name, String tel, String cardid, String gender, Integer grade, String imageurl) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.tel = tel;
+        this.cardid = cardid;
+        this.gender = gender;
+        this.grade = grade;
+        this.imageurl = imageurl;
     }
 
     public Integer getId() {
@@ -88,14 +102,11 @@ public class Reader {
         this.grade = grade;
     }
 
-    public Reader(Integer id, String username, String password, String name, String tel, String cardid, String gender, Integer grade) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.name = name;
-        this.tel = tel;
-        this.cardid = cardid;
-        this.gender = gender;
-        this.grade = grade;
+    public String getImageurl() {
+        return imageurl;
+    }
+
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
     }
 }

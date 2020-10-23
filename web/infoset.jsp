@@ -97,7 +97,7 @@
                 <div class="layui-input-block">
                     <button type="button" class="layui-btn" id="LAY-component-form-setval">重置</button>
 <%--                    <button type="button" class="layui-btn layui-btn-normal" id="LAY-component-form-getval">取值</button>--%>
-                    <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">修改</button>
+                    <button type="submit" class="layui-btn" id="testListAction" lay-submit="" lay-filter="demo1">修改</button>
                 </div>
             </div>
         </form>
@@ -113,6 +113,8 @@
 </script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
+    var id=${reader.id};
+    console.log("id为="+id);
     layui.use('upload', function() {
         var $ = layui.jquery;
         var upload = layui.upload;
@@ -120,13 +122,24 @@
         //普通图片上传
         var uploadInst = upload.render({
             elem: '#test1',
-            url: 'https://httpbin.org/post' //改成您自己的上传接口
-            ,
-            before: function(obj) {
-                //预读本地文件示例，不支持ie8
+            //根据id上传图片
+            url: 'http://localhost:8080/user?method=updateUserPhoto&id='+id, //改成您自己的上传接口
+            method: 'post' , //可选项。HTTP类型，默认post
+            auto: false, //选择文件后不自动上传
+            bindAction: '#testListAction' ,//指向一个按钮触发上传
+            choose: function(obj){
+                //将每次选择的文件追加到文件队列
+                var files = obj.pushFile();
+                //预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
                 obj.preview(function(index, file, result) {
+                    console.log(index); //得到文件索引
+                    console.log(file); //得到文件对象
+                    console.log(result); //得到文件base64编码，比如图片
                     $('#demo1').attr('src', result); //图片链接（base64）
-                });
+                    $.post("http://localhost:8080/user?method=updatePhoto", {result:result,id:id}, function(res) {
+                        console.log("updatePhoto请求成功");
+                    }, "text");//这里用的是post提交，如果不懂可以参考JQuery中ajax提
+                })
             },
             done: function(res) {
                 //如果上传失败
@@ -156,7 +169,7 @@
 
         //监听提交
         form.on('submit(demo1)', function(data) {
-            layer.alert(JSON.stringify(data.field), {
+            layer.alert(JSON.stringify("提交成功"), {
                 title: '最终的提交信息'
             })
             return false;

@@ -34,7 +34,7 @@ public class BookRepositoryImpl implements BookRepository {
             //返回结果为数组时的用法
             while (resultSet.next()) {
 //                System.out.println("所有书籍="+new Book(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5), resultSet.getDouble(6), resultSet.getInt(10), resultSet.getString(11),resultSet.getBytes(9)));
-                list.add(new Book(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5), resultSet.getDouble(6), resultSet.getInt(10), resultSet.getString(11),resultSet.getBytes(9)));
+                list.add(new Book(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5), resultSet.getDouble(6), resultSet.getInt(11), resultSet.getString(12),resultSet.getBytes(9)));
             }
         }catch (SQLException e) {
             e.printStackTrace();
