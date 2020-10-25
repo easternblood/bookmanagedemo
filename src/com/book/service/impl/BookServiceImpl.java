@@ -44,4 +44,9 @@ public class BookServiceImpl implements BookService {
     public List<BookCase> chuBanSheFind() {
         return bookRepository.chuBanSheFind();
     }
+
+    @Override
+    public int updatePhoto(Book book, String position) {
+        return bookRepository.updatePhoto(book,position);
+    }
 }

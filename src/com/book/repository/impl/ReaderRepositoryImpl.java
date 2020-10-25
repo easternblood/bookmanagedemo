@@ -31,7 +31,7 @@ public class ReaderRepositoryImpl implements ReaderRepository {
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 //单个数据的替代,
-                reader = new Reader(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7), resultSet.getInt(8),resultSet.getString(9));
+                reader = new Reader(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7), resultSet.getInt(8),resultSet.getString(10));
             }
 
         } catch (SQLException e) {
@@ -138,7 +138,7 @@ public class ReaderRepositoryImpl implements ReaderRepository {
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 //单个数据的替代,
-                reader = new Reader(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7), resultSet.getInt(8), resultSet.getString(9));
+                reader = new Reader(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7), resultSet.getInt(8), resultSet.getString(10));
             }
 
         } catch (SQLException e) {

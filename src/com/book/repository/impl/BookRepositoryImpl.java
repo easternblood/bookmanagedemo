@@ -26,7 +26,6 @@ public class BookRepositoryImpl implements BookRepository {
         //执行sql语句
         PreparedStatement statement=null;
         ResultSet resultSet=null;
-        Reader reader=null;
         try {
             statement = connection.prepareStatement(sql);
             //执行语句
@@ -34,7 +33,7 @@ public class BookRepositoryImpl implements BookRepository {
             //返回结果为数组时的用法
             while (resultSet.next()) {
 //                System.out.println("所有书籍="+new Book(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5), resultSet.getDouble(6), resultSet.getInt(10), resultSet.getString(11),resultSet.getBytes(9)));
-                list.add(new Book(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5), resultSet.getDouble(6), resultSet.getInt(11), resultSet.getString(12),resultSet.getBytes(9)));
+                list.add(new Book(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5), resultSet.getDouble(6), resultSet.getInt(11), resultSet.getString(12),resultSet.getBytes(9),resultSet.getString(10)));
             }
         }catch (SQLException e) {
             e.printStackTrace();
@@ -83,7 +82,7 @@ public class BookRepositoryImpl implements BookRepository {
             //执行语句
             resultSet = statement.executeQuery();
             if(resultSet.next()){
-                book=new Book(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5), resultSet.getDouble(6), resultSet.getInt(7), resultSet.getString(8),resultSet.getBytes(9));
+                book=new Book(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5), resultSet.getDouble(6), resultSet.getInt(7), resultSet.getString(8),resultSet.getBytes(9),resultSet.getString(10));
             }
         }catch (SQLException e) {
             e.printStackTrace();
@@ -97,21 +96,21 @@ public class BookRepositoryImpl implements BookRepository {
     public int updateOneBook(Book book) {
         //之前定义的包装类用于c3p0连接池的使用
         Connection connection= JdbcTools.getConnection();
-        String sql="update book set name=?,author=?,publish=?,pages=?,price=?,bookcaseid=? where id=?;";
+        String sql="update book set name=?,author=?,publish=?,pages=?,price=?,bookcaseid=?,imageurl=? where id=?;";
         //执行sql语句
         PreparedStatement statement=null;
         try {
             if(sql!=null) {
                 statement = connection.prepareStatement(sql);
-
                 statement.setString(1,book.getName());
                 statement.setString(2,book.getAuthor());
                 statement.setString(3,book.getPublish());
                 statement.setInt(4,book.getPages());
                 statement.setDouble(5,book.getPrice());
                 statement.setInt(6,book.getBookcaseid());
-                statement.setInt(7,book.getId());
-
+                statement.setString(7,book.getBookimageurl());
+                statement.setInt(8,book.getId());
+                System.out.println(book.getId()+book.getBookimageurl());
                 //执行更新语句
                 statement.executeUpdate();
                 System.out.println("方法updateOneBook更新数据成功");
@@ -204,5 +203,34 @@ public class BookRepositoryImpl implements BookRepository {
         }
 
         return list;
+    }
+
+    @Override
+    public int updatePhoto(Book book, String position) {
+        //之前定义的包装类用于c3p0连接池的使用
+        Connection connection= JdbcTools.getConnection();
+        String sql="update book set imageurl=? where id=?;";
+        //执行sql语句
+        PreparedStatement statement=null;
+        try {
+            if(sql!=null) {
+                statement = connection.prepareStatement(sql);
+
+
+                statement.setString(1,position);
+                statement.setInt(2,book.getId());
+
+                if (statement.executeUpdate()==1) {
+                    //单个数据的替代
+                    System.out.println("book方法updatePhoto更新数据成功");
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

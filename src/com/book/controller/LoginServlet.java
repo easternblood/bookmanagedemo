@@ -39,7 +39,6 @@ public class LoginServlet extends HttpServlet {
                 //用向上转型来保存
                 Object object=loginService.login(username,password);
                 if(object!=null) {
-                    HttpSession httpSession = req.getSession();
                     //向下转型保存
                     Reader reader = (Reader) object;
 //                    System.out.println("LoginServlet的reader="+reader);
@@ -62,6 +61,20 @@ public class LoginServlet extends HttpServlet {
                             System.out.println("0000000000000000000000");
                             break;
                     }
+                }
+                break;
+            case "denglutwo":
+                //用向上转型来保存
+                Object object1=loginService.login(username,password);
+                if(object1!=null) {
+                    //向下转型保存
+                    Reader reader = (Reader) object1;
+                    System.out.println("denglutwo LoginServlet的reader="+reader);
+                    // 1.获取session
+                    HttpSession session = req.getSession();
+                    //保存数据到服务器
+                    session.setAttribute("reader", reader);
+                    resp.sendRedirect("/infoset.jsp");
                 }
                 break;
             case "zhuce":

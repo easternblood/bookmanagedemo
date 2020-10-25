@@ -5,7 +5,7 @@
          pageEncoding="UTF-8"%>
 <%
     String path = request.getContextPath();
-
+//    System.out.println(session.getAttribute("reader").toString());
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -17,6 +17,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.10.0/jquery.js"></script>
+    <!-- 你必须先引入jQuery1.8或以上版本 -->
+    <script src="/layer/layer.js"></script>
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
     <style>
         .photo_item {
@@ -44,7 +47,12 @@
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
                     <a href="javascript:;">
-                        <img src="http://t.cn/RCzsdCq" class="layui-nav-img">${reader.username}
+                        <c:if test="${reader.imageurl!=null}">
+                            <img src="${reader.imageurl}" class="layui-nav-img">${reader.username}
+                        </c:if>
+                        <c:if test="${reader.imageurl==null}">
+                            <img src="https://gitee.com/eastern_blood/dongxuetu/raw/master/image/20201014101729.jpg" class="layui-nav-img">${reader.username}
+                        </c:if>
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a href="infoset.jsp">修改资料</a></dd>
@@ -88,7 +96,12 @@
                 <div class="layui-upload">
                     <button type="button" class="layui-btn" id="test1">上传图片</button>
                     <div class="layui-upload-list">
-                        <img style="width:100px ;height: 100px;" class="layui-upload-img" id="demo1">
+                        <c:if test="${reader.imageurl!=null}">
+                            <img src="${reader.imageurl}" style="width:100px ;height: 100px;" class="layui-upload-img" id="demo1">
+                        </c:if>
+                        <c:if test="${reader.imageurl==null}">
+                            <img src="https://gitee.com/eastern_blood/dongxuetu/raw/master/image/20201014101729.jpg" style="width:100px ;height: 100px;" class="layui-upload-img" id="demo1">
+                        </c:if>
                         <p id="demoText"></p>
                     </div>
                 </div>
@@ -126,7 +139,7 @@
             url: 'http://localhost:8080/user?method=updateUserPhoto&id='+id, //改成您自己的上传接口
             method: 'post' , //可选项。HTTP类型，默认post
             auto: false, //选择文件后不自动上传
-            bindAction: '#testListAction' ,//指向一个按钮触发上传
+            bindAction: '#ListAction' ,//指向一个按钮触发上传
             choose: function(obj){
                 //将每次选择的文件追加到文件队列
                 var files = obj.pushFile();
@@ -169,9 +182,17 @@
 
         //监听提交
         form.on('submit(demo1)', function(data) {
-            layer.alert(JSON.stringify("提交成功"), {
-                title: '最终的提交信息'
-            })
+            console.log("可以执行跳转")
+            layer.confirm('真的修改资料么', function(index) {
+                $.post("http://localhost:8080/login?method=denglutwo", {username:"${reader.username}",password:"${reader.password}"}, function(res) {
+                    console.log("上传图片更新用户信息请求成功");
+                }, "text");//这里用的是post提交，如果不懂可以参考JQuery中ajax提
+                layer.close(index);
+                location.href = "/infoset.jsp";
+                //向服务端发送删除指令
+                //删除数据库中的数据
+                <%--href="/book?method=deleteFindById&id=${id}"--%>
+            });
             return false;
         });
 

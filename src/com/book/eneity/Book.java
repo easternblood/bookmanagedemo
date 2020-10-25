@@ -12,6 +12,20 @@ public class Book {
     private Integer bookcaseid;
     private String kindname;
     private byte[] photoimg;
+    private String bookimageurl;
+
+    public Book(Integer id, String name, String author, String publish, Integer pages, Double price, Integer bookcaseid, String kindname, byte[] photoimg, String bookimageurl) {
+        this.id = id;
+        this.name = name;
+        this.author = author;
+        this.publish = publish;
+        this.pages = pages;
+        this.price = price;
+        this.bookcaseid = bookcaseid;
+        this.kindname = kindname;
+        this.photoimg = photoimg;
+        this.bookimageurl = bookimageurl;
+    }
 
     @Override
     public String toString() {
@@ -25,19 +39,8 @@ public class Book {
                 ", bookcaseid=" + bookcaseid +
                 ", kindname='" + kindname + '\'' +
                 ", photoimg=" + Arrays.toString(photoimg) +
+                ", bookimageurl='" + bookimageurl + '\'' +
                 '}';
-    }
-
-    public Book(Integer id, String name, String author, String publish, Integer pages, Double price, Integer bookcaseid, String kindname, byte[] photoimg) {
-        this.id = id;
-        this.name = name;
-        this.author = author;
-        this.publish = publish;
-        this.pages = pages;
-        this.price = price;
-        this.bookcaseid = bookcaseid;
-        this.kindname = kindname;
-        this.photoimg = photoimg;
     }
 
     public Integer getId() {
@@ -110,5 +113,13 @@ public class Book {
 
     public void setPhotoimg(byte[] photoimg) {
         this.photoimg = photoimg;
+    }
+
+    public String getBookimageurl() {
+        return bookimageurl;
+    }
+
+    public void setBookimageurl(String bookimageurl) {
+        this.bookimageurl = bookimageurl;
     }
 }

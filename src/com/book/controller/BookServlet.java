@@ -4,6 +4,7 @@ import com.book.eneity.Book;
 import com.book.eneity.BookCase;
 import com.book.service.BookService;
 import com.book.service.impl.BookServiceImpl;
+import com.book.utils.PhotoUtils;
 import com.google.gson.Gson;
 
 
@@ -14,10 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @WebServlet("/book")
 public class BookServlet extends HttpServlet {
@@ -121,19 +119,22 @@ public class BookServlet extends HttpServlet {
         String method = req.getParameter("method");
         System.out.println("BookServlet中使用方法为：" + method);
         Gson gson = new Gson();
+        String json="";
         switch (method) {
             case "updateOneBook":
                 // super.doPost(req, resp);
                 // System.out.println("数据更新开始");
-
-                // System.out.println("获取到的字符串"+req.getParameter("book").toString());
-                String book2=req.getParameter("book").toString();
-                // System.out.println("未改变的"+book2);
-                Book book1 = gson.fromJson(book2, Book.class);//对于javabean直接给出class实例
+                Integer bookid = Integer.parseInt(req.getParameter("id"));
+                System.out.println("UserServlet中使用方法updateUserPhoto获取参数为：" + bookid);
+                Book book = bookService.findBookById(bookid);
+//                // System.out.println("获取到的字符串"+req.getParameter("book").toString());
+//                String book2=req.getParameter("book").toString();
+//                // System.out.println("未改变的"+book2);
+//                Book book1 = gson.fromJson(book2, Book.class);//对于javabean直接给出class实例
                 // System.out.println("改变了的"+book1.toString());
 
                 // System.out.println("updateOneBook更新数据为" + book1);
-                if (bookService.updateOneBook(book1) == 1) {
+                if (bookService.updateOneBook(book) == 1) {
                     System.out.println("updateOneBook数据更新成功");
                 }
                 break;
@@ -143,6 +144,38 @@ public class BookServlet extends HttpServlet {
                 Book book4 = gson.fromJson(book3, Book.class);//对于javabean直e接给出class实例
                 if (bookService.addOneBook(book4) == 1) {
                     System.out.println("addOneBook数据更新成功");
+                }
+                break;
+            case "updateBookPhoto":
+                Integer bookid2 = Integer.parseInt(req.getParameter("id"));
+                System.out.println("UserServlet中使用方法updateUserPhoto获取参数为：" + bookid2);
+                Book book2 = bookService.findBookById(bookid2);
+//                System.out.println("未改变的reader3="+readerone);
+                String bookjson=gson.toJson(book2);
+                Map map = new HashMap();
+                map.put("code", "0");
+                map.put("msg", "");
+                map.put("data", bookjson);
+                json = gson.toJson(map);
+//                System.out.println(json);
+                resp.setContentType("text/plain");
+                resp.setCharacterEncoding("gb2312");
+                PrintWriter out = new PrintWriter(resp.getOutputStream());
+                out.print(json);
+                out.flush();//把内存中的数据刷写到硬盘
+                break;
+            case "updatePhoto":
+                // super.doPost(req, resp);
+                //这里存放图片到数据库里
+                String basedata=req.getParameter("result");
+                Integer bookidtwo = Integer.parseInt(req.getParameter("id"));
+                System.out.println("UserServlet中使用方法updatePhoto获取数据为：" + basedata);
+                String position= PhotoUtils.GenerateImage(basedata,"book");
+                //通过id存储地址
+                Book booktwo = bookService.findBookById(bookidtwo);
+                //传递两个参数去取代返回值为是否成功保存地址
+                if (bookService.updatePhoto(booktwo,position) == 1) {
+                    System.out.println("updatePhoto数据更新成功");
                 }
                 break;
         }

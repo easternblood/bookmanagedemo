@@ -16,4 +16,5 @@ public interface BookService {
     public int addOneBook(Book book);
     public List<BookCase> zhongLeiFind();
     public List<BookCase> chuBanSheFind();
+    public int updatePhoto(Book book,String position);
 }

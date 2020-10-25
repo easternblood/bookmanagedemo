@@ -58,7 +58,12 @@
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
                     <a href="javascript:;">
-                        <img src="http://t.cn/RCzsdCq" class="layui-nav-img">${reader.username}
+                        <c:if test="${reader.imageurl!=null}">
+                            <img src="${reader.imageurl}" class="layui-nav-img">${reader.username}
+                        </c:if>
+                        <c:if test="${reader.imageurl==null}">
+                            <img src="https://gitee.com/eastern_blood/dongxuetu/raw/master/image/20201014101729.jpg" class="layui-nav-img">${reader.username}
+                        </c:if>
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a href="infoset.jsp">修改资料</a></dd>
