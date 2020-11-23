@@ -14,7 +14,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>万书</title>
+    <title>万书管理系统</title>
     <link rel="stylesheet" href="/layui/css/layui.css">
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.10.0/jquery.js"></script>
     <!-- 你必须先引入jQuery1.8或以上版本 -->
@@ -49,7 +49,12 @@
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
                     <a href="javascript:;">
-                        <img src="http://t.cn/RCzsdCq" class="layui-nav-img">${reader.username}
+                        <c:if test="${reader.imageurl!=null}">
+                            <img src="${reader.imageurl}" class="layui-nav-img">${reader.username}
+                        </c:if>
+                        <c:if test="${reader.imageurl==null}">
+                            <img src="https://gitee.com/eastern_blood/dongxuetu/raw/master/image/20201014101729.jpg" class="layui-nav-img">${reader.username}
+                        </c:if>
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a href="infoset.jsp">修改资料</a></dd>
@@ -69,7 +74,7 @@
                 <li class="layui-nav-item"><a href="bookshow.jsp">所有商品</a></li>
                 <c:if test="${reader.grade==2}">
                     <li class="layui-nav-item"><a href="bookfenxi.jsp">数据分析</a></li>
-                    <li class="layui-nav-item"><a href="bookshow.jsp">所有用户</a></li>
+                    <li class="layui-nav-item"><a href="user.jsp">所有用户</a></li>
                 </c:if>
             </ul>
         </div>
@@ -111,9 +116,17 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script>
+    function arrayBufferToBase64( buffer ) {
+        var binary = '';
+        var bytes = new Uint8Array( buffer );
+        var len = bytes.byteLength;
+        for (var i = 0; i < len; i++) {
+            binary += String.fromCharCode( bytes[ i ] );
+        }
+        return window.btoa( binary );
+    }
     layui.use('table', function() {
         var table = layui.table;
-
         table.render({
             elem: '#testone',
             id:'test',
@@ -121,6 +134,17 @@
             url: 'http://localhost:8080/book',
 
             parseData: function(res) { //res 即为原始返回的数据
+                // console.log(res)
+                for(index in res){
+                    // console.log("进入循环")
+                    if(res[index].photoimg!=null){
+                        var str12 =arrayBufferToBase64(res[index].photoimg);//转换字符串
+                        res[index].photoimg="data:image/png;base64,"+str12
+                        // res[index].photoimg='data:image/png;base64,'+str12
+                        // console.log(res[index].photoimg)
+                    }
+                }
+                // console.log(res)
                 var result;
                 // console.log(this);
                 // console.log(JSON.stringify(res));
@@ -189,6 +213,11 @@
                     field: 'kindname',
                     title: '类型',
                     width: 113
+                },{
+                    field: 'photoimg',
+                    title: '图片',
+                    width: 140,
+                    templet:'#imgshow'
                 }, {
                     fixed: 'right',
                     title: '操作',
@@ -306,7 +335,15 @@
             active[type] ? active[type].call(this) : '';
         });
     });
+
 </script>
+<!-- 定义图像模板 d为filed中的返回参数,url为后台中每一组元素的url -->
+<script type="text/html" id="imgshow">
+    {{#console.log(d)}}
+<%--    <div><img src="{{d.photoimg}}"></div>--%>
+    <div><img src="{{d.bookimageurl}}" style="width: 40px;height: 20px"></div>-
+</script>
+
 
 </body>
 
